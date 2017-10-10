@@ -3,18 +3,18 @@
     public class Person
     {
 
-        string birthday;
-        string deathday;
-        int id;
-        string name;
-        int gender;
-        string biography;
-        double popularity;
-        string place_of_birth;
-        string profile_path;
-        bool adult;
-        string imdb_id;
-        string homepage;
+        public string birthday;
+        public string deathday;
+        public int id;
+        public string name;
+        public int gender;
+        public string biography;
+        public double popularity;
+        public string place_of_birth;
+        public string profile_path;
+        public bool adult;
+        public string imdb_id;
+        public string homepage;
 
         public string Birthday
         {
