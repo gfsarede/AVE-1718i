@@ -8,7 +8,7 @@ namespace MovHubDb.Model
         public int Id { get; set; }
         public string Title { get; set; }
         public string Release_date { get; set; }
-        public string Vote_average { get; set; }
+        public double Vote_average { get; set; }
 
         [HtmlIgnore]
         public int Vote_count { get; set; }

@@ -3,14 +3,14 @@ namespace MovHubDb.Model
     public class CreditsItem
     {
 
-        public int cast_id { get; set; }
-        public string character { get; set; }
-        public string credit_id { get; set; }
-        public int gender { get; set; }
-        public int id { get; set; }
-        public string name { get; set; }
-        public int order { get; set; }
-        public string profile_path { get; set; }
+        public int Cast_id { get; set; }
+        public string Character { get; set; }
+        public string Credit_id { get; set; }
+        public int Gender { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Order { get; set; }
+        public string Profile_path { get; set; }
 
     }
 }

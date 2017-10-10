@@ -15,25 +15,33 @@ namespace MovHubDb
         /// </summary>
         public MovieSearchItem[] Search(string title, int page)
         {
-            string body = client.DownloadString("https://api.themoviedb.org/3/search/movie?api_key=bf3af3188d1b9a4a4e7bcf1a02ef3f58&query=war%20games");
-            return new MovieSearchItem[0];
+            string firstBody = client.DownloadString("https://api.themoviedb.org/3/search/movie?api_key=bf3af3188d1b9a4a4e7bcf1a02ef3f58&query=" + title);
+            MovieSearch movieSearch = (MovieSearch)JsonConvert.DeserializeObject(firstBody, typeof(MovieSearch));
+            return movieSearch.results;
+
         }
 
         /// <summary>
         /// e.g.: https://api.themoviedb.org/3/movie/508?api_key=bf3af3188d1b9a4a4e7bcf1a02ef3f58
         /// </summary>
         public Movie MovieDetails(int id) {
-           // string body = client.DownloadString("https://api.themoviedb.org/3/movie/508?api_key=bf3af3188d1b9a4a4e7bcf1a02ef3f58");
-            return new Movie();
+            string body = client.DownloadString("https://api.themoviedb.org/3/movie/" + id + "?api_key=bf3af3188d1b9a4a4e7bcf1a02ef3f58");
+            Movie obj = (Movie)JsonConvert.DeserializeObject(body, typeof(Movie));
+
+            return obj;
         }
 
         /// <summary>
         /// e.g.: https://api.themoviedb.org/3/movie/508/credits?api_key=bf3af3188d1b9a4a4e7bcf1a02ef3f58
         /// </summary>
-        public CreditsItem[] MovieCredits(int id) {
+        public CreditsItem[] MovieCredits(int id)
+        {
 
-            
-            return new CreditsItem[0];
+            string body = client.DownloadString("https://api.themoviedb.org/3/movie/" + id + "/credits?api_key=bf3af3188d1b9a4a4e7bcf1a02ef3f58");
+            Credits credits = (Credits)JsonConvert.DeserializeObject(body, typeof(Credits));
+
+            return credits.Cast;
+
         }
 
         /// <summary>

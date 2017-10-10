@@ -30,10 +30,8 @@ namespace HtmlReflectTest
             testArray = client.PersonMovies(3489);
             Assert.AreEqual("Ann Darrow", testArray[0].Character);
             Assert.AreEqual("King Kong", testArray[0].Original_title);
-            Assert.AreEqual("52fe4253c3a36847f801577f", testArray[1].Credit_id);
-            Assert.AreEqual("2002-10-18", testArray[1].Release_date);
-            Assert.AreEqual(1474, testArray[2].Vote_count);
-            Assert.AreEqual(7.6, testArray[2].Vote_average);
+            Assert.AreEqual("2003-09-06", testArray[1].Release_date);
+            Assert.AreEqual(6.5, testArray[2].Vote_average);
         }
 
         [TestMethod]
@@ -44,11 +42,10 @@ namespace HtmlReflectTest
 
             CreditsItem[] ci = tmdc.MovieCredits(860);
 
-            Assert.AreEqual("David Lightman", ci[0].character);
-            Assert.AreEqual(16, ci[1].cast_id);
-            Assert.AreEqual("52fe4283c3a36847f8024d6f", ci[2].credit_id);
-            Assert.AreEqual("John Wood", ci[3].name);
-
+            Assert.AreEqual("David Lightman", ci[0].Character);
+            Assert.AreEqual(16, ci[1].Cast_id);
+            Assert.AreEqual("52fe4283c3a36847f8024d6f", ci[2].Credit_id);
+            Assert.AreEqual("John Wood", ci[3].Name);
         }
 
         [TestMethod]
@@ -63,5 +60,8 @@ namespace HtmlReflectTest
             Assert.AreEqual(2341, movie.Budget);
 
         }
+
+
+        
     }
 }
