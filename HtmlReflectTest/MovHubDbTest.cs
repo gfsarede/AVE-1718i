@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MovHubDb;
+﻿using MovHubDb;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MovHubDb.Model;
 
@@ -49,19 +44,40 @@ namespace HtmlReflectTest
         }
 
         [TestMethod]
-        public static void TestGetMovieSearch()
+        public void Search_Test()
+        {
+
+            TheMovieDbClient tmdc = new TheMovieDbClient();
+
+            MovieSearchItem[] msi = tmdc.Search("Drive", 1);
+            Assert.AreEqual(64690, msi[0].Id);
+            Assert.AreEqual("Drive", msi[1].Title);
+            Assert.AreEqual("Mulholland Drive", msi[2].Original_title);
+            Assert.AreEqual("2011-02-24", msi[3].Release_date);
+        }
+
+        [TestMethod]
+        public void TestGetMovieSearch()
         {
             TheMovieDbClient tmdc = new TheMovieDbClient();
 
             Movie movie = tmdc.MovieDetails(1018);
 
-            Assert.AreEqual("false", movie.Adult);
+            Assert.AreEqual(false, movie.Adult);
             Assert.AreEqual("/ihkQywNs6Si24WssdmT1rNHuAYy.jpg", movie.Backdrop_path);
-            Assert.AreEqual(2341, movie.Budget);
+            Assert.AreEqual(15000000, movie.Budget);
 
         }
 
+        [TestMethod]
+        public void MovieDetailsTest()
+        {
 
-        
+            TheMovieDbClient client = new TheMovieDbClient();
+            Movie movie = client.MovieDetails(508);
+
+            Assert.AreEqual(40000000, movie.Budget);
+            Assert.AreEqual("http://www.loveactually.com/", movie.Homepage);
+        }
     }
 }
