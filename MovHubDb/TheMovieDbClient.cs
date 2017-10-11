@@ -1,12 +1,15 @@
 ﻿using MovHubDb.Model;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Reflection;
 
 namespace MovHubDb
 {
     public class TheMovieDbClient
     {
+        static Dictionary<Type, PropertyInfo> dictionary = new Dictionary<Type, PropertyInfo>();
 
         static WebClient client = new WebClient();
 
@@ -60,9 +63,11 @@ namespace MovHubDb
         /// </summary>
         public MovieSearchItem[] PersonMovies(int actorId) {
 
-            
-            string body = client.DownloadString("https://api.themoviedb.org/3/person/"+actorId+"/movie_credits?api_key=bf3af3188d1b9a4a4e7bcf1a02ef3f58");
-            PersonCredits personCredits = (PersonCredits)JsonConvert.DeserializeObject(body, typeof(PersonCredits));
+            PersonCredits personCredits = null;
+
+            string body = client.DownloadString("https://api.themoviedb.org/3/person/" + actorId + "/movie_credits?api_key=bf3af3188d1b9a4a4e7bcf1a02ef3f58");
+
+            personCredits = (PersonCredits)JsonConvert.DeserializeObject(body, typeof(PersonCredits));
 
             return personCredits.Cast;
         }

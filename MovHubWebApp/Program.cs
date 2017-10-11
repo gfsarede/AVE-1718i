@@ -27,9 +27,9 @@ namespace MovHubWebApp
         static void TestMovieDbWebApi()
         {
             TheMovieDbClient db = new TheMovieDbClient();
-            MovieSearchItem[] res = db.Search("war games", 1);
-            Console.WriteLine(res);
-            Console.WriteLine(db.MovieDetails(860));
+            //MovieSearchItem[] res = db.Search("war games", 1);
+            //Console.WriteLine(res);
+            //Console.WriteLine(db.MovieDetails(860));
         }
 
         static void Main(string[] args)

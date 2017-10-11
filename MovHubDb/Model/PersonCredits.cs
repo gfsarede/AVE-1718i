@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace MovHubDb.Model
 {
     public class PersonCredits
@@ -8,7 +11,7 @@ namespace MovHubDb.Model
             get;
             set;
         }
-        
+
     }
         
 }

@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CheckProperties.cs" />
     <Compile Include="CustomAttributes.cs" />
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\PersonCredits.cs" />
