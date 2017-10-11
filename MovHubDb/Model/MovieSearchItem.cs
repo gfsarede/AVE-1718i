@@ -4,7 +4,7 @@ namespace MovHubDb.Model
 {
     public class MovieSearchItem
     {
-        [HtmlAs(" < li class='list-group-item'><a href = '/movies/{value}' > {value}</a></li>")]
+        [HtmlAs(" <a href = '/movies/{value}' > {value}</a>")]
         public int Id { get; set; }
         public string Title { get; set; }
         public string Release_date { get; set; }
@@ -30,7 +30,9 @@ namespace MovHubDb.Model
         public bool Adult { get; set; }
         [HtmlIgnore]
         public string Overview { get; set; }
+        [HtmlIgnore]
         public string Character { get; set; }
+        [HtmlIgnore]
         public string Credit_id { get; set; }
     }
 }
