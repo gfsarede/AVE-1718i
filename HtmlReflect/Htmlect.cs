@@ -13,7 +13,7 @@ namespace HtmlReflect
         string closeStrong = "</strong> ";
         string closeGroupItem = "</li>";
         string closeListGroup = "</ul>";
-        string str = "<table class='table table-hover'><thead><tr>";
+        string tableClass = "<table class='table table-hover'><thead><tr>";
         string td = "<td>";
         string th = "<th>";
         string closeTh = "</th>";
@@ -29,6 +29,8 @@ namespace HtmlReflect
 
         public string ToHtml(object obj)
         {
+             string str= "";
+
             Type t = obj.GetType();
 
             foreach (PropertyInfo p in t.GetProperties())
@@ -42,20 +44,24 @@ namespace HtmlReflect
                     HtmlAsAttribute[] attributes = (HtmlAsAttribute[])p.GetCustomAttributes(typeof(HtmlAsAttribute), false);
                     string aux = ConstructHtmlString(attributes);
                     string aux2 = aux.Replace("{name}", p.Name).Replace("{value}", p.GetValue(obj) + "") + closeStrong + closeListGroup;
-                    ulClass += aux2;
+                    str +=ulClass + aux2;
                 }
                 else
                 {
-                    ulClass += listGroupItem + strong + p.Name + closeStrong + p.GetValue(obj) + closeGroupItem; 
+                    str += listGroupItem + strong + p.Name + closeStrong + p.GetValue(obj) + closeGroupItem; 
                 }
             }
-            ulClass += closeListGroup;
-            return ulClass;
+            str += closeListGroup;
+            return str;
         }
 
 
         public string ToHtml(object[] arr)                                      
         {
+            
+            string form = "<div><form><input type = 'text' name = 'title' placeholder = 'Insert Title Here'.. ><button> GO </button></form ></div>";
+            string str = form + tableClass;
+
             foreach (PropertyInfo p in arr[0].GetType().GetProperties())                //Needed to put first the name of the properties
             {
                 if (!p.IsDefined(typeof(HtmlIgnoreAttribute), false))
@@ -78,7 +84,7 @@ namespace HtmlReflect
 
                     else if (p.IsDefined(typeof(HtmlAsAttribute), false))
                     {
-                        object[] attributes = p.GetCustomAttributes(typeof(HtmlAsAttribute), false);
+                        HtmlAsAttribute[] attributes = (HtmlAsAttribute[])p.GetCustomAttributes(typeof(HtmlAsAttribute), false);
                         string aux = ConstructHtmlString(attributes);
                         string aux2 = td + aux.Replace("{value}", p.GetValue(arr[i]) + "") + closeTd;
                         str += aux2;
