@@ -8,69 +8,101 @@ namespace HtmlReflect
     public class Htmlect
     {
 
-        string str = "<ul class='list-group'>";
-        string listGroupItem = "<li class='list-group-item'><strong> ";
-        string closeStrong = "</strong>: ";
+        string ulClass = "<ul class='list-group'>";
+        string listGroupItem = "<li class='list-group-item'>";
+        string closeStrong = "</strong> ";
         string closeGroupItem = "</li>";
         string closeListGroup = "</ul>";
+        string str = "<table class='table table-hover'><thead><tr>";
+        string td = "<td>";
+        string th = "<th>";
+        string closeTh = "</th>";
+        string closeThread = "</thead>";
+        string closeTd = "</td>";
+        string tbody = "<tbody>";
+        string strong = "<strong>";
+        string closeTbody = "</tbody>";
+        string tr = "<tr>";
+        string closeTr = "</tr>";
+        string closeTable = "</table>";
 
-        public string ConstructHtmlString(object target, HtmlAsAttribute attrs)
-        {
-            return "";
-        }
 
-
-        public string ToHtmlCustom(object obj)
+        public string ToHtml(object obj)
         {
             Type t = obj.GetType();
 
             foreach (PropertyInfo p in t.GetProperties())
             {
-                if (!p.IsDefined(typeof(HtmlIgnoreAttribute), false))
+                if (p.IsDefined(typeof(HtmlIgnoreAttribute), false))
                 {
-                    str += listGroupItem + p.Name + closeStrong + p.GetValue(obj) + closeGroupItem;
+                    continue;
+                }
+                else if (p.IsDefined(typeof(HtmlAsAttribute), false))
+                {
+                    string aux;
+                    object[] attributes = p.GetCustomAttributes(typeof(HtmlAsAttribute), false);
+                    aux = ConstructHtmlString(attributes);
+                    string aux2 = listGroupItem + aux.Replace("{value}", p.GetValue(obj) + "") + closeStrong + closeListGroup;
+                    ulClass += aux2;
                 }
 
-                if (p.IsDefined(typeof(HtmlAsAttribute), false))
+                else
                 {
-                    object instance = Activator.CreateInstance(t);
-                    object attributes = p.GetCustomAttributes(typeof(HtmlAsAttribute), false);
-                    str += ConstructHtmlString(instance, (HtmlAsAttribute)attributes);
+                    ulClass += listGroupItem + strong + p.Name + closeStrong + p.GetValue(obj) + closeGroupItem;
                 }
             }
-
-            str += closeListGroup;
-            return str;
+            ulClass += closeListGroup;
+            return ulClass;
         }
 
-        public string ToHtmlCustom(object[] obj)
-        {
-            Type t = obj.GetType();
-
-
-
-            return "";
-        }
-
-        public string ToHtml(object obj)
-        {
-
-            foreach (PropertyInfo f in obj.GetType().GetProperties())
-                str += listGroupItem + f.Name + closeStrong + f.GetValue(obj) + closeGroupItem;
-
-            str += closeListGroup;
-            return str;
-        }
 
         public string ToHtml(object[] arr)
         {
-            string str = "";
 
 
-            str = ConstructHtml(arr);
+            foreach (PropertyInfo p in arr[0].GetType().GetProperties())
+            {
+                if (!p.IsDefined(typeof(HtmlIgnoreAttribute), false))
+                    str += th + p.Name + closeTh;
+            }
 
+            str += closeTr + closeThread + tbody;
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+
+                str += tr;
+                Type t = arr[i].GetType();
+
+                foreach (PropertyInfo p in t.GetProperties())
+                {
+                    if (p.IsDefined(typeof(HtmlIgnoreAttribute), false))
+                    {
+                        continue;
+
+                    }
+
+                    else if (p.IsDefined(typeof(HtmlAsAttribute), false))
+                    {
+                        string aux;
+                        object[] attributes = p.GetCustomAttributes(typeof(HtmlAsAttribute), false);
+                        aux = ConstructHtmlString(attributes);
+                        string aux2 = td + aux.Replace("{value}", p.GetValue(arr[i]) + "") + closeTd;
+
+                        str += aux2;
+                    }
+                    else
+                    {
+                        str += td + p.GetValue(arr[i]) + closeTd;
+                    }
+                }
+                str += closeTr;
+            }
+            str += closeTbody + closeTable;
             return str;
+
         }
+
 
         private string ConstructHtml(object[] obj)
         {
@@ -99,15 +131,22 @@ namespace HtmlReflect
                 str += tr;
                 foreach (PropertyInfo p in t_item.GetProperties())
                 {
-                    if (p.Name.Equals("id"))
-
-                        str += td + "<a href =http://localhost:3000/movies/" + p.GetValue(obj[i]) + "?api_key=bf3af3188d1b9a4a4e7bcf1a02ef3f58>" + p.GetValue(obj[i]) + "</a>";
-                    else
-                        str += td + p.GetValue(obj[i]) + closeTd;
+                    str += td + p.GetValue(obj[i]) + closeTd;
                 }
                 str += closeTr;
 
             }
+            return str;
+        }
+
+
+
+        public string ConstructHtmlString(object[] attrs)
+        {
+            string str = "";
+
+            foreach (object o in attrs)
+                str = (string)(attrs[0].GetType().GetProperty("Html").GetValue(attrs[0]));
             return str;
         }
     }
