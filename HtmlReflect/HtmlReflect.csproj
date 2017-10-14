@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildSingleObject.cs" />
+    <Compile Include="ExistingValues.cs" />
     <Compile Include="Htmlect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

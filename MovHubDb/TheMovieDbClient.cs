@@ -9,7 +9,6 @@ namespace MovHubDb
 {
     public class TheMovieDbClient
     {
-        static Dictionary<Type, PropertyInfo> dictionary = new Dictionary<Type, PropertyInfo>();
 
         static WebClient client = new WebClient();
 
@@ -62,12 +61,10 @@ namespace MovHubDb
         /// e.g.: https://api.themoviedb.org/3/person/3489/movie_credits?api_key=bf3af3188d1b9a4a4e7bcf1a02ef3f58
         /// </summary>
         public MovieSearchItem[] PersonMovies(int actorId) {
-
-            PersonCredits personCredits = null;
-
+   
             string body = client.DownloadString("https://api.themoviedb.org/3/person/" + actorId + "/movie_credits?api_key=bf3af3188d1b9a4a4e7bcf1a02ef3f58");
 
-            personCredits = (PersonCredits)JsonConvert.DeserializeObject(body, typeof(PersonCredits));
+            PersonCredits personCredits = (PersonCredits)JsonConvert.DeserializeObject(body, typeof(PersonCredits));
 
             return personCredits.Cast;
         }

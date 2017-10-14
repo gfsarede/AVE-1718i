@@ -1,5 +1,6 @@
 ﻿using MovHubDb;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 
@@ -7,8 +8,13 @@ namespace HtmlReflect
 {
     public class Htmlect
     {
-                                                                        //Global variables to help in the construction of the HTML
-        string ulClass = "<ul class='list-group'>";                         
+
+        static Dictionary<Type, List<BuildSingleObject>> dictionary = new Dictionary<Type, List<BuildSingleObject>>();
+        static List<BuildSingleObject> list;
+
+
+        //Global variables to help in the construction of the HTML
+        string ulClass = "<ul class='list-group'>";
         string listGroupItem = "<li class='list-group-item'>";
         string closeStrong = "</strong> ";
         string closeGroupItem = "</li>";
@@ -29,32 +35,43 @@ namespace HtmlReflect
 
         public string ToHtml(object obj)
         {
-             string str= "";
+            string str = "";
 
             Type t = obj.GetType();
 
-            foreach (PropertyInfo p in t.GetProperties())
-            {
-                if (p.IsDefined(typeof(HtmlIgnoreAttribute), false))            //if its annotated with Ignore continue
-                {
-                    continue;
-                }
-                else if (p.IsDefined(typeof(HtmlAsAttribute), false))           //if it is annotaded with HtmlAs construct the Html as says in the customAttr
-                {
-                    HtmlAsAttribute[] attributes = (HtmlAsAttribute[])p.GetCustomAttributes(typeof(HtmlAsAttribute), false);
-                    string aux = ConstructHtmlString(attributes);
-                    string aux2 = aux.Replace("{name}", p.Name).Replace("{value}", p.GetValue(obj) + "") + closeStrong + closeListGroup;
-                    str +=ulClass + aux2;
-                }
-                else
-                {
-                    str += listGroupItem + strong + p.Name + closeStrong + p.GetValue(obj) + closeGroupItem; 
-                }
-            }
-            str += closeListGroup;
-            return str;
-        }
+            if (dictionary.TryGetValue(t, out list))
+                Console.WriteLine("EXISTS");
 
+            else
+            {
+                foreach (PropertyInfo p in t.GetProperties())
+                {
+
+                    if (p.IsDefined(typeof(HtmlIgnoreAttribute), false))            //if its annotated with Ignore continue
+                    {
+                        continue;
+                    }
+                    else if (p.IsDefined(typeof(HtmlAsAttribute), false))           //if it is annotaded with HtmlAs construct the Html as says in the customAttr
+                    {
+                        HtmlAsAttribute[] attributes = (HtmlAsAttribute[])p.GetCustomAttributes(typeof(HtmlAsAttribute), false);
+                        string aux = ConstructHtmlString(attributes);
+                        string aux2 = aux.Replace("{name}", p.Name).Replace("{value}", p.GetValue(obj) + "") + closeStrong + closeListGroup;
+                        str += ulClass + aux2;
+                    }
+                    else
+                    {
+                        str += listGroupItem + strong + p.Name + closeStrong + p.GetValue(obj) + closeGroupItem;
+                    }
+
+                }
+                list = new List<BuildSingleObject>();
+                list.Add(new BuildSingleObject(t.GetProperties()));
+                dictionary.Add(t, list);
+
+                str += closeListGroup;
+            }
+            return str;        
+        }
 
         public string ToHtml(object[] arr)                                      
         {
