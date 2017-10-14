@@ -48,6 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Custom_Attrs_Test.cs" />
     <Compile Include="HtmlectTest.cs" />
     <Compile Include="MovHubDbTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
