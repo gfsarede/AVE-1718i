@@ -17,9 +17,27 @@ namespace HtmlReflect
             this.info = info;
         }
 
-        public PropertyInfo[] ExistingProperties(object obj)
+        public bool ExistingProperties(object obj, List<object> list)
         {
-            return obj.GetType().GetProperties();
+
+            PropertyInfo[] pi = obj.GetType().GetProperties();
+            int j = 0;
+
+            for (int i = 0; i < list.Count; ++i)
+            {
+                    foreach(PropertyInfo info in list[i].GetType().GetProperties())
+                   {
+                        object z = pi[j].GetValue(obj);
+                        object a = info.GetValue(list[i]);
+
+                    if (a != null && z != null)
+                    {
+                        if (!a.Equals(z)) return false;
+                    }
+                    ++j;
+                   }
+            }
+            return true;
         }
     }
 }

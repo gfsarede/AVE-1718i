@@ -9,6 +9,6 @@ namespace HtmlReflect
 {
     interface ExistingValues
     {
-        PropertyInfo[] ExistingProperties(object obj);
+        bool ExistingProperties(object obj, List<object> list);
     }
 }

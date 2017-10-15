@@ -9,8 +9,10 @@ namespace HtmlReflect
     public class Htmlect
     {
 
-        static Dictionary<Type, List<BuildSingleObject>> dictionary = new Dictionary<Type, List<BuildSingleObject>>();
-        static List<BuildSingleObject> list;
+        static Dictionary<Type, List<object>> dictionary = new Dictionary<Type, List<object>>();
+        static List<object> list = new List<object>();
+        static List<object> outList = new List<object>();
+        BuildSingleObject target = new BuildSingleObject(null);
 
 
         //Global variables to help in the construction of the HTML
@@ -39,8 +41,10 @@ namespace HtmlReflect
 
             Type t = obj.GetType();
 
-            if (dictionary.TryGetValue(t, out list))
-                Console.WriteLine("EXISTS");
+          if (dictionary.TryGetValue(t, out outList)) {
+
+                target.ExistingProperties(obj, outList);
+            }
 
             else
             {
@@ -64,8 +68,8 @@ namespace HtmlReflect
                     }
 
                 }
-                list = new List<BuildSingleObject>();
-                list.Add(new BuildSingleObject(t.GetProperties()));
+                
+                list.Add(obj);
                 dictionary.Add(t, list);
 
                 str += closeListGroup;
