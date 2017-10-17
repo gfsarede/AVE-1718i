@@ -4,10 +4,10 @@ namespace MovHubDb.Model
 {
     public class MovieSearchItem
     {
-        [HtmlAs(" <a href = '/movies/{value}' > {value}</a>")]
+        [HtmlAs("<a href = '/movies/{value}' > {value}</a>")]
         public int Id { get; set; }
         public string Title { get; set; }
-        public string Release_date { get; set; }
+        public string Release_date { get; set; }    
         public double Vote_average { get; set; }
 
         [HtmlIgnore]
